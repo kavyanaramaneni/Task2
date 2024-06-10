@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://img.freepik.com/free-photo/desk-workspace-with-various-elements_23-2148043207.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #333;
+        }
+
+        nav {
+            background-color: rgba(76, 175, 80, 0.9); 
+            height: 70px;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0 20px; 
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center; 
+        }
+
+        nav ul li {
+            margin-left: 40px; 
+        }
+
+        nav ul li:first-child {
+            margin-left: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff; 
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a:hover {
+            color: #ccc;
+        }
+
+        nav ul li a i {
+            margin-right: 5px;
+        }
+
+        nav .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .logo img {
+            height: 30px; /* Reduced size of the logo */
+            width: auto;
+            margin-right: 10px;
+        }
+
+        nav .logo p {
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .todo-container {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .todo-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .todo-input {
+            width: 60%;
+            max-width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .todo-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .todo-button:hover {
+            background-color: #45a049;
+        }
+
+        .todo-list {
+            width: 100%;
+            max-width: 600px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .todo-list li {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .todo-list li .tick-button {
+            width: 24px;
+            height: 24px;
+            background-color: #e74c3c;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .todo-list li .tick-button i {
+            display: none;
+        }
+
+        .todo-list li.completed .tick-button {
+            background-color: #4caf50;
+        }
+
+        .todo-list li.completed .tick-button i {
+            display: block;
+        }
+
+        .todo-list li.completed {
+            text-decoration: line-through;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .modal-content button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .yes-button {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .yes-button:hover {
+            background-color: #45a049;
+        }
+
+        .no-button {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .no-button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="todo.png" alt="ToDo List" class="logo-img">
+                <p>ToDo List</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="ToDo.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="contacts.html"><i class="fas fa-address-book"></i> Contacts</a></li>
+                <li><a href="signin.html"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="todo-container">
+            <h2>ToDo List</h2>
+            <div class="input-container">
+                <input type="text" id="todo-input" class="todo-input" placeholder="Enter an activity">
+                <button id="todo-button" class="todo-button">Add</button>
+            </div>
+            <ul id="todo-list" class="todo-list"></ul>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('todo-button').addEventListener('click', function() {
+            const input = document.getElementById('todo-input');
+            const taskText = input.value.trim();
+
+            if (taskText !== '') {
+                const li = document.createElement('li');
+                li.textContent = taskText;
+
+                const tickButton = document.createElement('button');
+                tickButton.className = 'tick-button';
+                tickButton.innerHTML = '<i class="fas fa-check"></i>';
+                tickButton.addEventListener('click', function() {
+                    li.classList.toggle('completed');
+                    moveCompletedTaskToBottom(li);
+                });
+
+                li.appendChild(tickButton);
+                document.getElementById('todo-list').appendChild(li);
+
+                input.value = '';
+            }
+        });
+
+        document.getElementById('todo-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                document.getElementById('todo-button').click();
+            }
+        });
+
+        function moveCompletedTaskToBottom(taskItem) {
+            const todoList = document.getElementById('todo-list');
+            if (taskItem.classList.contains('completed')) {
+                todoList.appendChild(taskItem);
+            } else {
+                // Find the position to insert the task back at the top of uncompleted tasks
+                const completedTasks = document.querySelectorAll('.todo-list li.completed');
+                if (completedTasks.length > 0) {
+                    todoList.insertBefore(taskItem, completedTasks[0]);
+                } else {
+                    todoList.insertBefore(taskItem, todoList.firstChild);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
